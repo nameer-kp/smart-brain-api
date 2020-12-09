@@ -18,10 +18,8 @@ app.use(cors());
 const db =knex({
     client: 'pg',
     connection: {
-      hconnectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: true
-      }
+      connectionString: process.env.DATABASE_URL,
+      ssl: true
     }
   });
 
