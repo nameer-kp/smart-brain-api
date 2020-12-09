@@ -12,8 +12,13 @@ const image = require('./controllers/image');
 
 const app=express();
 
+var corsOptions = {
+  origin: 'https://smart-brain-frontend-nameer.herokuapp.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 //initialising knex
 const db =knex({
     client: 'pg',
