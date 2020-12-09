@@ -29,6 +29,9 @@ const db =knex({
       console.log(data);
   }) 
 
+  app.get('/',(req,res)=>{res.send("its working")})
+
+
 //here were handling sign in api call
 app.post('/signin',signin.signinHandler(db,bcrypt)) //here we are using advanced function (ie,siginhandler returns another fucntion which receive req,res)
 // here handling register api call
@@ -48,6 +51,6 @@ app.put('/apiCall',(req,res)=>{image.apiHandler(req,res)})
 // As of bcryptjs 2.4.0, compare returns a promise if callback is omitted:
 
 
-app.listen(3001, ()=>{
-    console.log("server is running on port 3001");
+app.listen(process.env.PORT, ()=>{
+    console.log("server is running on port ",process.env.PORT);
 })
