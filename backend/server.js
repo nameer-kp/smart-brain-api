@@ -26,7 +26,7 @@ const db =knex({
     host : 'postgres',
     user : 'postgres',
     password : '123456',
-    database : 'smart-brain'
+    database : 'postgres'
   }
   });
 
