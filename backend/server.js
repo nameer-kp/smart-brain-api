@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 const db =knex({
     client: 'pg',
     connection: {
-    host : 'postgres-docker',
+    host : 'postgres',
     user : 'postgres',
     password : '123456',
     database : 'smart-brain'
