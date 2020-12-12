@@ -13,7 +13,7 @@ const image = require('./controllers/image');
 const app=express();
 
 var corsOptions = {
-  origin: 'https://smart-brain-frontend-nameer.herokuapp.com',
+  origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -25,7 +25,7 @@ const db =knex({
     connection: {
       connectionString: process.env.DATABASE_URL,
       ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: true
       }
     }
   });
@@ -34,7 +34,7 @@ const db =knex({
       console.log(data);
   }) 
 
-  app.get('/',(req,res)=>{res.send("its working")})
+  app.get('/',(req,res)=>{profile.scoreboard(req,res,db)})
 
 
 //here were handling sign in api call

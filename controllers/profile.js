@@ -2,7 +2,7 @@ const profieHandler =(req,res,db) =>{
     const { id } = req.params;
 
     console.log("getting request for ",req.params);
-    db.select('*').from('users').where({
+    db.select('name','entries').from('users').where({
         id:id
     }).then(user=>{
         if(user.length){ //because the user return empty array if didnt found any user
@@ -18,6 +18,15 @@ const profieHandler =(req,res,db) =>{
     })
 }
 
+const scoreboard = (req,res,db)=>{
+    console.log("getting request for scoreboard");
+    db.select('*').from('users').orderBy('entries', 'desc').limit(10)
+    .then(users=>{
+        res.json(users)
+    })
+}
+
 module.exports={
-    profieHandler:profieHandler
+    profieHandler:profieHandler,
+    scoreboard:scoreboard
 }
