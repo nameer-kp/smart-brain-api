@@ -5,7 +5,7 @@ const app = new Clarifai.App({
   apiKey:'588fbe9a305a4bc1881b25df1f0052b2'
 })
 const apiHandler =(req,res)=>{
-  app.models.predict(Clarifai.FACE_DETECT_MODEL,req.body.imageUrl)
+  app.models.predict('d02b4508df58432fbb84e800597b8959',req.body.imageUrl)
   .then(data=>{
     res.json(data)
   }).catch(err=>{

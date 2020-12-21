@@ -20,7 +20,7 @@ const profieHandler =(req,res,db) =>{
 
 const scoreboard = (req,res,db)=>{
     console.log("getting request for scoreboard");
-    db.select('*').from('users').orderBy('entries', 'desc').limit(10)
+    db.select('name','entries').from('users').orderBy('entries', 'desc').limit(10)
     .then(users=>{
         res.json(users)
     })
