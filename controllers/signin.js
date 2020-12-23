@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 const signinHandler = (db,bcrypt,jwt)=>(req,res)=>{
     
     db.select('email','hash').from('login')
@@ -16,7 +17,7 @@ const signinHandler = (db,bcrypt,jwt)=>(req,res)=>{
                         res.status(400).json("error login")
 
                     }
-                    const accessToken =jwt.sign(users[0],process.env.ACCESS_TOKEN_SECRET)
+                    const accessToken =jwt.sign(users[0],process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
                     res.json(Object.assign(users[0],{accessToken:accessToken}));
                     
                 })
