@@ -17,8 +17,13 @@ const signinHandler = (db,bcrypt,jwt)=>(req,res)=>{
                         res.status(400).json("error login")
 
                     }
-                    const accessToken =jwt.sign(users[0],process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
-                    res.json(Object.assign(users[0],{accessToken:accessToken}));
+                    // jwt token creation
+                    const accessToken =jwt.sign(users[0],process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'});
+                    res.cookie('JWT', accessToken, {
+                        maxAge: 86_400_000,
+                        httpOnly: true
+                        });
+                    res.json(users[0]);
                     
                 })
                 .catch(err=>{

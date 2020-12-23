@@ -11,14 +11,20 @@ const image = require('./controllers/image');
 require('dotenv').config()
 const jwt =require('jsonwebtoken')
 
+const cookieParser = require('cookie-parser');
+
+
+
 
 const app=express();
 
 var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: 'http://localhost:3001',
+  credentials: true,
+  optionsSuccessStatus: 200 ,
+  // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 //initialising knex
@@ -64,7 +70,13 @@ app.get('/home',authenticateToken,(req,res)=>{ // we pass authenticateToken as a
 })
 
 
-
+app.get('/token',(req,res)=>{
+  console.log("getting req for token");
+  res.cookie('JWT', accessToken, {
+    maxAge: 86_400_000,
+    httpOnly: true
+    });
+})
 
 //here were handling sign in api call
 app.post('/signin',signin.signinHandler(db,bcrypt,jwt)) //here we are using advanced function (ie,siginhandler returns another fucntion which receive req,res)
