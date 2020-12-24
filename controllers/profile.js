@@ -23,6 +23,8 @@ const scoreboard = (req,res,db)=>{
     db.select('name','entries').from('users').orderBy('entries', 'desc').limit(10)
     .then(users=>{
         res.json(users)
+    }).catch(err=>{
+        console.log("error from scoreboard",err);
     })
 }
 

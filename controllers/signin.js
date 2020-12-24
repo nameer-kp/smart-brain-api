@@ -21,11 +21,11 @@ const signinHandler = (db,bcrypt,jwt)=>(req,res)=>{
                     const accessToken =jwt.sign(users[0],process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'});
                     res.cookie('JWT', accessToken, {
                         maxAge: 86_400_000,
-                        httpOnly: true,
+                        httpOnly: false,
                         
                         });
-                    // res.setHeader("set-cookie",[`JWT=${accessToken}`])
-                    res.status(200).json(users[0]);
+                    res.status(200)
+                    .json(users[0]);
                     
                 })
                 .catch(err=>{

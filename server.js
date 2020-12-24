@@ -10,6 +10,7 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 require('dotenv').config()
 const jwt =require('jsonwebtoken')
+const auth = require('./controllers/auth')
 
 const cookieParser = require('cookie-parser');
 
@@ -42,32 +43,12 @@ const db =knex({
       console.log(data);
   }) 
   
-  const authenticateToken =(req,res,next) =>{   //this function is for aunthenticating the jwt token
-    // const authHeader =req.headers['authorization'];
-    // const token =authHeader&&authHeader.split(' ')[1];
-    token=req.cookies.JWT
-    let result
-    console.log("from auth",token);
-    if(token ==null) return res.sendStatus(401);
-    try{
-
-      result =jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-      req.user=result //  if the token is valid then the req.user contain our user data
-
-      next()
-     
-    }
-    catch (err){
-      throw new Error(err);
-
-    }  
-    
-  }
-  app.get('/',authenticateToken,(req,res)=>{profile.scoreboard(req,res,db)})
+  
+  app.get('/',auth.authenticateToken('/',jwt,db),(req,res)=>{profile.scoreboard(req,res,db)})
 
 // //authorization
-app.get('/home',authenticateToken,(req,res)=>{ // we pass authenticateToken as a middle ware for the get request
-  res.json(req.user)
+app.get('/home',auth.authenticateToken('/home',jwt,db),(req,res)=>{ // we pass authenticateToken as a middle ware for the get request
+  
 })
 
 
