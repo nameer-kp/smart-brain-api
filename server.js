@@ -19,14 +19,14 @@ const cookieParser = require('cookie-parser');
 const app=express();
 
 var corsOptions = {
-  origin: 'http://localhost:3001',
-  credentials: true,
+  origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 ,
+  credentials: true
   // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 //initialising knex
 const db =knex({
   client: 'pg',
@@ -43,8 +43,9 @@ const db =knex({
   }) 
   
   const authenticateToken =(req,res,next) =>{   //this function is for aunthenticating the jwt token
-    const authHeader =req.headers['authorization'];
-    const token =authHeader&&authHeader.split(' ')[1];
+    // const authHeader =req.headers['authorization'];
+    // const token =authHeader&&authHeader.split(' ')[1];
+    token=req.cookies.JWT
     let result
     console.log("from auth",token);
     if(token ==null) return res.sendStatus(401);
@@ -70,13 +71,6 @@ app.get('/home',authenticateToken,(req,res)=>{ // we pass authenticateToken as a
 })
 
 
-app.get('/token',(req,res)=>{
-  console.log("getting req for token");
-  res.cookie('JWT', accessToken, {
-    maxAge: 86_400_000,
-    httpOnly: true
-    });
-})
 
 //here were handling sign in api call
 app.post('/signin',signin.signinHandler(db,bcrypt,jwt)) //here we are using advanced function (ie,siginhandler returns another fucntion which receive req,res)
