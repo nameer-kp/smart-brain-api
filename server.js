@@ -11,6 +11,7 @@ const image = require('./controllers/image');
 require('dotenv').config()
 const jwt =require('jsonwebtoken')
 const auth = require('./controllers/auth')
+const logout = require('./controllers/logout')
 
 const cookieParser = require('cookie-parser');
 
@@ -50,6 +51,8 @@ const db =knex({
 app.get('/home',auth.authenticateToken('/home',jwt,db),(req,res)=>{ // we pass authenticateToken as a middle ware for the get request
   
 })
+
+app.get('/logout',logout.logoutHandler)
 
 
 
