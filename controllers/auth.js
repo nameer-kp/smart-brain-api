@@ -13,8 +13,7 @@ const authenticateToken =(from,jwt,db)=>async (req,res,next) =>{   //this functi
         if(from==="/home")
             {res.json(user[0])
             }
-            
-      //  if the token is valid then the req.user contain our user data
+                //  if the token is valid then the req.user contain our user data
       
       next()
      
