@@ -1,4 +1,4 @@
-const registerHandler = (req,res,db,bcrypt)=>{
+const registerHandler = (req,res,db,bcrypt,jwt)=>{
 
     const {email,name,password} =req.body;
     if(!email||!name||!password){
@@ -20,8 +20,18 @@ const registerHandler = (req,res,db,bcrypt)=>{
                     email:loginEmail[0],
                     name:name,
                     joined:new Date()
-                }).then(response=>{
-                    res.json(response[0]);
+                }).then(users=>{
+                    const accessToken =jwt.sign(users[0],process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'});
+                    console.log("cookie test from register",accessToken)
+                    res.cookie('JWT', accessToken, {
+
+                        maxAge: 86_400_000,
+                        httpOnly: false,
+                        
+                        });
+                    res.status(200)
+                    .json(users[0]);
+
                 })                             
             }).then(trx.commit)
             .catch(trx.rollback)

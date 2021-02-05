@@ -19,7 +19,7 @@ const authenticateToken =(from,jwt,db)=>async (req,res,next) =>{   //this functi
      
     }
     catch (err){
-      throw new Error(err);
+      res.send("token expired")
 
     }  
     

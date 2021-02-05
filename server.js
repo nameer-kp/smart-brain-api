@@ -59,7 +59,7 @@ app.get('/logout',logout.logoutHandler)
 //here were handling sign in api call
 app.post('/signin',signin.signinHandler(db,bcrypt,jwt)) //here we are using advanced function (ie,siginhandler returns another fucntion which receive req,res)
 // here handling register api call
-app.post('/register',(req,res)=>{register.registerHandler(req,res,db,bcrypt)})
+app.post('/register',(req,res)=>{register.registerHandler(req,res,db,bcrypt,jwt)})
 
 // here we handling profile api call
 app.get('/profile/:id',(req,res)=>{profile.profieHandler(req,res,db)})
